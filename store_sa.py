@@ -16,26 +16,21 @@ def save_on_sa(data_dir, use_only_84_keys=True, rescale=True, postfix=''):
     #sa.delete("tra_X_phrs")
 
     for sd in subdirs:
-		
         data = []
         # lead sheet setting
         for dp in range(2):
-		    rootdir = os.path.join(data_dir, sd)
-		    for subdir in os.walk(rootdir)
-			    print(">>>>>>>>",subdir)
-			    x_name = data_prefix[dp]
-				
-			    x = np.load(os.path.join(rootdir, subdir, x_name + '.npy'))
-			    print(x.shape)
-			    x = np.delete(x, slice(0, x.shape[1] - 96), axis=1)
-			    print(x.shape)
-			    x = x.transpose()
-			    print(">>>>>>>", os.path.join(data_dir, sd, subdir, x_name + '.npy'))
-			    ##tmp_data =  np.reshape(np.load(os.path.join(data_dir, sd , x_name+'.npy')),(-1,384,128, 1)) # for 4 dbar
-			    tmp_data = np.reshape(x, (-1, 96, 128, 1))  # for 1bar
-			    if (use_only_84_keys):
-			        tmp_data = tmp_data[:, :, 24:108, :]
-			    data.append(tmp_data)
+            x_name = data_prefix[dp]
+            x = np.load(os.path.join(data_dir, sd, x_name + '.npy'))
+            print(x.shape)
+            x = np.delete(x, slice(0, x.shape[1] - 96), axis=1)
+            print(x.shape)
+            x = x.transpose()
+            print(os.path.join(data_dir, sd, x_name + '.npy'))
+            ##tmp_data =  np.reshape(np.load(os.path.join(data_dir, sd , x_name+'.npy')),(-1,384,128, 1)) # for 4 dbar
+            tmp_data = np.reshape(x, (-1, 96, 128, 1))  # for 1bar
+            if (use_only_84_keys):
+                tmp_data = tmp_data[:, :, 24:108, :]
+            data.append(tmp_data)
 
         data_X = np.concatenate(data, axis=3)
 
