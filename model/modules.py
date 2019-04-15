@@ -4,8 +4,8 @@ from __future__ import print_function
 
 import tensorflow as tf
 import numpy as np
-from musegan.libs.ops import *
-from musegan.libs.utils import *
+from model.libs.ops import *
+from model.libs.utils import *
 
 class PhraseGenerator(object):
     def __init__(self, name='PG', output_dim=1, is_bn=True):

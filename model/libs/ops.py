@@ -6,7 +6,7 @@ import math
 import numpy as np
 import tensorflow as tf
 from tensorflow.python.framework import ops
-from musegan.libs.utils import *
+from model.libs.utils import *
 
 
 def get_placeholder(default_tensor=None, shape=None, name=None):

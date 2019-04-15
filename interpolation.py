@@ -10,13 +10,13 @@ from pprint import pprint
 import SharedArray as sa
 import pickle
 
-from musegan.core import *
-from musegan.components import *
+from model.core import *
+from model.components import *
 from input_data import *
 from config import *
 
 
-from musegan.libs.utils import *
+from model.libs.utils import *
 
 if __name__ == '__main__':
 

@@ -11,7 +11,7 @@ import random
 import scipy.misc
 import numpy as np
 from time import gmtime, strftime
-from musegan.libs import write_midi
+from model.libs import write_midi
 import sys
 import os
 import imageio

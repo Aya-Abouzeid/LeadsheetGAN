@@ -5,9 +5,9 @@ from __future__ import print_function
 
 import tensorflow as tf
 import numpy as np
-from musegan.libs.ops import *
-from musegan.libs.utils import *
-from musegan.modules import *
+from model.libs.ops import *
+from model.libs.utils import *
+from model.modules import *
 
 class Model:
     def get_model_info(self, quiet=True):
