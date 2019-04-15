@@ -37,6 +37,7 @@ class InputData:
         return self.x[key][st:st+data_size] * 2. - 1.
 
     def get_rand_smaples(self, sample_size=64, key='train'):
+        print(len(self.x[key]))
         random_idx = np.random.choice(len(self.x[key]), sample_size, replace=False)
         return self.x[key][random_idx]*2. - 1.
 
