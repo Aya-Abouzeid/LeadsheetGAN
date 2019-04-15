@@ -9,13 +9,13 @@ import tensorflow as tf
 from pprint import pprint
 import SharedArray as sa
 
-from musegan.core import *
-from musegan.components import *
+
 from input_data import *
 from config import *
 
 #assign GPU
-
+from model.components import NowbarHybrid
+from model.core import MuseGAN
 
 if __name__ == '__main__':
 
