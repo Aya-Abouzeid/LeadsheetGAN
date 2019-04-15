@@ -9,14 +9,12 @@ import tensorflow as tf
 from pprint import pprint
 import SharedArray as sa
 
-
+from model.core import *
+from model.components import *
 from input_data import *
 from config import *
 
 #assign GPU
-from model.components import NowbarHybrid
-from model.core import MuseGAN
-
 if __name__ == '__main__':
 
     """ Create TensorFlow Session """

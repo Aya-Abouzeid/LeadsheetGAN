@@ -9,10 +9,10 @@ import numpy as np
 import tensorflow as tf
 from six.moves import xrange
 from sklearn.utils import shuffle
-from musegan.libs.ops import *
-from musegan.libs.utils import *
-from musegan.eval.metrics import *
-from musegan.components import *
+from model.libs.ops import *
+from model.libs.utils import *
+from model.eval.metrics import *
+from model.components import *
 from config import *
 # from config.default_128_r_off_y_off import *
 
