@@ -12,7 +12,7 @@ def save_on_sa(data_dir, use_only_84_keys = True, rescale = True, postfix=''):
     print('[*]',data_dir)
 
     ##data_prefix = ['Bass', 'Drum', 'Guitar', 'Other', 'Piano', 'Chord']
-    data_prefix = ['mel_phr','acc_phr']
+    data_prefix = ['verse_key_chords','verse_key_melody']
     subdirs = ['tra', 'val']
 
     for sd in subdirs:
@@ -61,4 +61,5 @@ if __name__ == '__main__':
     ##save_on_sa('../music/lpd_4dbar_12_C', postfix='phrs')  # data_phr
     ##save_on_sa('./data_tab_4dbar_12', postfix='phrs')
     ##save_on_sa('./data_tab_1bar_12', postfix='phrs')
-    save_on_sa('./data_tab_2bar_12', postfix='phrs')
+    ##save_on_sa('./data_tab_2bar_12', postfix='phrs')
+    save_on_sa('./data_tab_1bar', postfix='phrs')
