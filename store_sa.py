@@ -20,12 +20,12 @@ def save_on_sa(data_dir, use_only_84_keys=True, rescale=True, postfix=''):
         data = []
         # lead sheet setting
         for dp in range(2):
-			rootdir = data_dir + sd
-			for subdir in os.walk()
+			rootdir = os.path.join(data_dir, sd)
+			for subdir in os.walk(rootdir)
 				print(">>>>>>>>",subdir)
 				x_name = data_prefix[dp]
 				
-				x = np.load(os.path.join(data_dir, sd, subdir, x_name + '.npy'))
+				x = np.load(os.path.join(rootdir, subdir, x_name + '.npy'))
 				print(x.shape)
 				x = np.delete(x, slice(0, x.shape[1] - 96), axis=1)
 				print(x.shape)
