@@ -12,13 +12,13 @@ def save_on_sa(data_dir, use_only_84_keys=True, rescale=True, postfix=''):
 
     ##data_prefix = ['Bass', 'Drum', 'Guitar', 'Other', 'Piano', 'Chord']
     data_prefix = ['mel_phr', 'acc_phr']
-    subdirs = ['tra']
+    subdirs = ['tra','val']
     sa.delete("tra_X_phrs")
     #sa.delete("val_X_phrs")
 
     for sd in subdirs:
         concathelper = []
-        for i in range(64):
+        for i in range(100):
             # lead sheet setting
             data = []
             for dp in range(2):
