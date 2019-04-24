@@ -26,7 +26,7 @@ def get_colormap():
     ##                     [1., .5, 0.],
     ##                     [0., .5, 1.],
     ##                     [0., 1., .5]])
-    
+
     colormap = np.array([[1., 0., 0.],
                          [0., 1., 0.]])
     return tf.constant(colormap, dtype=tf.float32, name='colormap')
@@ -40,7 +40,7 @@ class TrainingConfig:
     batch_size = 80
     #batch_size = 64
     #batch_size = 32
-    epoch = 6
+    epoch = 8
     iter_to_save = 100
     sample_size = 120
     print_batch = True
@@ -59,7 +59,7 @@ class TrainingConfig:
     ##                [0, 1, 0, 0, 0, 0],  # metric_drum_pattern
     ##                [1, 0, 1, 1, 1, 1]   # metric_num_chroma_used
     ##            ])
-    
+
 
     eval_map = np.array([
                     [1,1],  # metric_is_empty_bar
@@ -70,7 +70,7 @@ class TrainingConfig:
                     [0,0],  # metric_drum_pattern
                     [1,1]   # metric_num_chroma_used
                 ])
-    
+
     exp_name = 'exp'
     gpu_num = '0'
 
@@ -131,7 +131,7 @@ class NowBarRNNHybridConfig(ModelConfig):
     z_intra_dim = 32
     output_dim = 1
     state_size = 32
-    
+
 # condi 6 track LPD
 ##class NowBarRNNHybridConfig(ModelConfig):
 ##    track_names = TRACK_NAMES
@@ -143,7 +143,7 @@ class NowBarRNNHybridConfig(ModelConfig):
 ##    output_dim = 1
 ##    state_size = 32
 
-    
+
 # onebar
 class OneBarHybridConfig(ModelConfig):
     track_names = TRACK_NAMES
