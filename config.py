@@ -37,12 +37,12 @@ def get_colormap():
 
 class TrainingConfig:
     is_eval = True
-    batch_size = 80
+    batch_size = 32
     #batch_size = 64
     #batch_size = 32
     epoch = 8
     iter_to_save = 100
-    sample_size = 120
+    sample_size = 180
     print_batch = True
     drum_filter = np.tile([1,0.3,0,0,0,0.3], 16)
     scale_mask = [1., 0., 1., 0., 1., 1., 0., 1., 0., 1., 0., 1.]
