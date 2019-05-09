@@ -40,7 +40,7 @@ class TrainingConfig:
     batch_size = 32
     #batch_size = 64
     #batch_size = 32
-    epoch = 12
+    epoch = 100
     iter_to_save = 100
     sample_size = 250
     print_batch = True
