@@ -93,7 +93,7 @@ class MuseGAN(object):
         # save training data samples
         sample_shape = get_sample_shape(self.config.sample_size)
         print('Sample size = ', self.config.sample_size)
-        train_samples = input_data.get_rand_smaples(self.config.sample_size)
+        train_samples = input_data.get_rand_smaples(sample_size=self.config.sample_size)
         save_bars(train_samples, sample_shape, file_path=self.dir_sample, name='Train(random).png')
         ##save_midis(train_samples, file_path=os.path.join(self.dir_sample, 'train.mid'))
 

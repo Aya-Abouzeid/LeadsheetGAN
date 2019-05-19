@@ -42,7 +42,7 @@ def imsave(images, size, path, boarder=3, name='sample', type_=0):
 
 def merge(images, size, boarder=3):
     h, w = images.shape[1], images.shape[2]
-    img = np.zeros((h*size[0] + boarder*(size[0]-1), w*size[1] + boarder*(size[1]-1), 3))
+    img = np.zeros(int((h*size[0] + boarder*(size[0]-1)), int(w*size[1] + boarder*(size[1]-1)), 3))
 
     for idx, image in enumerate(images):
         i = idx % size[1]
@@ -255,7 +255,7 @@ def get_sample_shape(sample_size):
     elif sample_size >= 48  and sample_size %6 == 0:
         return [6,sample_size//6]
     elif sample_size >= 24 and sample_size %4 == 0:
-        return [4, sample_size/4]
+        return [4, sample_size//4]
     elif sample_size >= 15 and sample_size %3 == 0:
         return [3, sample_size//3]
     elif sample_size >= 8 and sample_size %2 == 0:

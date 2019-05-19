@@ -7,25 +7,7 @@ import numpy as np
 from model.libs.ops import *
 from model.libs.utils import *
 
-class PhraseGenerator(object):
-    def __init__(self, name='PG', output_dim=1, is_bn=True):
-        self.output_dim = output_dim
-        self.name = name
-        self.is_bn = is_bn
-
-    def __call__(self, in_tensor, reuse=False):
-        
-        ############## . paul115236 ############
-        with tf.variable_scope(self.name, reuse=reuse):
-            h0 = tf.reshape(in_tensor, tf.stack([-1, 1, 1, in_tensor.get_shape()[1]]))
-            h0 = relu(batch_norm(transconv2d(h0, [2, 1], 1024, kernels=[2, 1],
-                                            strides=[2, 1], name='h1'), self.is_bn))
-            h1 = relu(batch_norm(transconv2d(h0, [4, 1], self.output_dim,
-                                            kernels=[3, 1], strides=[1, 1], name='h2'), self.is_bn))
-            h1 = tf.transpose(tf.squeeze(h1, axis=2), [0, 2, 1])
-
-        return h1
-        #########################################
+       #########################################
         
 
         #with tf.variable_scope(self.name, reuse=reuse):
