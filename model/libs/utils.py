@@ -1,4 +1,3 @@
-%%writefile model/libs/utils.py
 """
 Some codes from https://github.com/Newmu/model_code
 """
