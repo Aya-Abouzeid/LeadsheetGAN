@@ -1,3 +1,4 @@
+%%writefile config.py
 '''
 Model Configuration
 '''
@@ -37,12 +38,12 @@ def get_colormap():
 
 class TrainingConfig:
     is_eval = True
-    batch_size = 32
+    batch_size = 24
     #batch_size = 64
     #batch_size = 32
-    epoch = 100
+    epoch = 10
     iter_to_save = 100
-    sample_size = 250
+    sample_size = 32
     print_batch = True
     drum_filter = np.tile([1,0.3,0,0,0,0.3], 16)
     scale_mask = [1., 0., 1., 0., 1., 1., 0., 1., 0., 1., 0., 1.]
@@ -84,7 +85,7 @@ class ModelConfig:
     ##output_w = 48
     output_h = 84
     lamda = 10
-    batch_size = 64
+    batch_size = 24
     #batch_size = 32
     beta1 = 0.5
     beta2 = 0.9
@@ -98,10 +99,11 @@ class NowBarHybridConfig(ModelConfig):
     track_names = TRACK_NAMES
     track_dim = 2
     acc_idx = 0
-    z_inter_dim = 64
-    z_intra_dim = 64
+    z_inter_dim = 24
+    z_intra_dim = 24
     output_dim = 1
     type_ = 0 # 0. for 96 ts perbar /1. for 48 ts per bar
     ##acc_output_w = 48 # chord sequence: 48, chroma sequence: 48, chroma vector: 4, chord vector: 4
     ##acc_output_h = 84 # chord sequence: 84, chroma sequence: 12, chroma vector:12, chord vector: 84
+
 
