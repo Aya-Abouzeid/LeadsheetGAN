@@ -5,7 +5,6 @@ from __future__ import print_function
 
 import tensorflow as tf
 import numpy as np
-from model.libs.ops import *
 from model.libs.utils import *
 from model.modules import *
 
@@ -44,94 +43,6 @@ class Model:
 # NowBar
 #######################################################################################################################
 
-class Nowbar(Model):
-    def _build_graph(self, config):
-        self._build_encoder(config)
-        self._build_generator(config)
-        self._build_discriminator(config)
-        self.print_vars(self.e_vars)
-        self.g_vars = self.g_vars + self.e_vars
-
-        self._build_optimizer(config)
-        self.vars = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope=tf.get_variable_scope().name)
-
-    def _build_encoder(self, config):
-        with tf.variable_scope('E') as scope:
-            if config.acc_idx is not None:
-                    self.acc_track = tf.slice(self.x, [0, 0, 0, config.acc_idx], [-1, -1, -1, 1]) # take piano as condition
-                    BE = BarEncoder()
-                    self.nowbar = BE(in_tensor=self.acc_track, type_=config.type_)
-            else:
-                self.nowbar = None
-
-            self.e_vars = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope=scope.name)
-
-    def _build_generator(self, config):
-        with tf.variable_scope('G') as scope:
-            self.all_tracks = []
-
-            for tidx in range(config.track_dim):
-                if tidx is config.acc_idx:
-                    tmp_track = self.acc_track
-                else:
-                    with tf.variable_scope(config.track_names[tidx]):
-                        BG = BarGenerator(output_dim=self.output_dim)
-                        ##print("nowbar",tf.shape(self.nowbar))
-                        tmp_track = BG(in_tensor=self.z_final_list[tidx], nowbar=self.nowbar, type_=config.type_)
-
-                self.all_tracks.append(tmp_track)
-
-            self.prediction = tf.concat([t for t in self.all_tracks], 3)
-            # print(self.prediction.get_shape())
-            self.prediction_binary = to_binary_tf(self.prediction)
-            self.prediction_chroma = to_chroma_tf(self.prediction_binary)
-
-            self.g_vars = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope=scope.name)
-
-            ## summary
-            prediction_image = to_image_tf(self.prediction, config.colormap)
-            self.summary_prediction_image = tf.summary.image('prediction/G', prediction_image,
-                                                             max_outputs=10)
-
-    def _build_discriminator(self, config):
-        with tf.variable_scope('D') as scope:
-
-            BD = BarDiscriminator()
-
-            self.input_real = self.x
-            self.input_fake = self.prediction
-
-            _, self.D_real = BD(self.input_real, nowbar=self.nowbar, type_=config.type_, reuse=False)
-            _, self.D_fake = BD(self.input_fake, nowbar=self.nowbar, type_=config.type_, reuse=True)
-
-            ## compute gradient panelty
-            # reshape data
-            re_real = tf.reshape(self.input_real, [-1, config.output_w * config.output_h * config.track_dim])
-            re_fake = tf.reshape(self.input_fake, [-1, config.output_w * config.output_h * config.track_dim])
-
-            # sample alpha from uniform
-            alpha = tf.random_uniform(
-                                shape=[config.batch_size,1],
-                                minval=0.,
-                                maxval=1.)
-            differences = re_fake - re_real
-            interpolates = re_real + (alpha*differences)
-
-            # feed interpolate into D
-            X_hat = tf.reshape(interpolates, [-1, config.output_w, config.output_h, config.track_dim])
-            _, self.D_hat = BD(X_hat, nowbar=self.nowbar, type_=config.type_, reuse=True)
-
-            # compute gradients panelty
-            gradients = tf.gradients(self.D_hat, [interpolates])[0]
-            slopes = tf.sqrt(1e-8 + tf.reduce_sum(tf.square(gradients), reduction_indices=[1]))
-            gradient_penalty = tf.reduce_mean((slopes-1.)**2) * config.lamda
-
-            #loss
-            self.d_loss = tf.reduce_mean(self.D_fake) - tf.reduce_mean(self.D_real)
-            self.g_loss = -tf.reduce_mean(self.D_fake)
-            self.d_loss += gradient_penalty
-
-            self.d_vars = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope=scope.name)
 
 class NowbarHybrid(Nowbar):
     def __init__(self, config):

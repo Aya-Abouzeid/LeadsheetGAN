@@ -47,7 +47,7 @@ if __name__ == '__main__':
         ##model = RNNHybrid(NowBarRNNHybridConfig) # RNN + condition
         model = NowbarHybrid(NowBarHybridConfig)
         ##input_data = InputDataRNNHybrid(model)
-        input_data = InputDataNowBarHybrid(model)
+        input_data = InputDataNowBarHybrid(model, ModelConfig.batch_size)
         input_data.add_data_sa(path_x_train_phr, 'train')
         
         musegan = MuseGAN(sess, t_config, model)

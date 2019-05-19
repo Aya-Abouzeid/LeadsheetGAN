@@ -6,7 +6,7 @@ import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
 class InputData:
-    def __init__(self, model, batch_size=64):
+    def __init__(self, model, batch_size=32):
         self.model = model # to get endpoint
         self.batch_size = batch_size
         self.z = dict()
@@ -55,25 +55,6 @@ class InputData:
 # Image
 #######################################################################################################################
 
-class InputDataMNIST(InputData):
-    dataset_dir = 'dataset/mnist/original'
-    def __init__(self, model, batch_size=64):
-        self.model = model # to get endpoint
-        self.batch_size = batch_size
-        self.x = dict()
-
-        mnist = input_data.read_data_sets(self.dataset_dir, one_hot = True)
-        self.add_data_np(mnist.train.images.reshape((-1,28,28,1)), 'train')
-        self.add_data_np(mnist.test.images.reshape((-1,28,28,1)), 'test')
-
-    def gen_feed_dict(self, idx=0, data_size=None, key='train'):
-        batch_size = self.batch_size if data_size is None else data_size
-        z = np.random.uniform(-1., 1., size=(self.batch_size, self.model.z_dim)).astype(np.float32)
-        x = self.get_batch(idx, data_size, key)
-
-        feed_dict = {self.model.z: z, self.model.x: x}
-
-        return feed_dict
 
 #######################################################################################################################
 # Music
