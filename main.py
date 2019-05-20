@@ -13,6 +13,8 @@ from model.core import *
 from model.components import *
 from input_data import *
 from config import *
+from random import randint
+
 
 #assign GPU
 if __name__ == '__main__':
@@ -62,8 +64,10 @@ if __name__ == '__main__':
         path_x_test_phr = 'val_X_phrs'
         input_data.add_data_sa(path_x_test_phr, key='test')
         ##input_data.add_data_sa(path_x_train_phr, key='test')
-    
+
+        batch_size = t_config.batch_size
+        random_num_batch = randint(0, batch_size)
         # generate samples
-        musegan.gen_test(input_data, is_eval=True)
+        musegan.gen_test(input_data, num_batch = random_num_batch,is_eval=True)
 
 
