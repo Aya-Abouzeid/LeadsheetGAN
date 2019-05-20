@@ -42,8 +42,6 @@ def imsave(images, size, path, boarder=3, name='sample', type_=0):
 
 def merge(images, size, boarder=3):
     h, w = images.shape[1], images.shape[2]
-    print("Size height", size[0])
-    print("Size width", size[1])
     img = np.zeros((h*size[0] + boarder*(size[0]-1), w*size[1] + boarder*(size[1]-1), 3))
 
     for idx, image in enumerate(images):
@@ -51,9 +49,9 @@ def merge(images, size, boarder=3):
         j = idx // size[1]
         add_h = boarder if j < size[0] else 0
         add_w = boarder if i < size[1] else 0
-		print("image Shape:", image.shape)
-		print("img shape:", img.shape)
-        img[j*(h+add_h):j*(h+add_h)+h, i*(w+add_w):i*(w+add_w)+w, :] = image
+        start = j*(h+add_h)
+        end = j*(h+add_h)+h
+        img[start:end , i*(w+add_w):i*(w+add_w)+w, :] = image
 
     for i in range(1,size[1]):
         img[:,i*(w+3)-3:i*(w+3)] = [1.0, 1.0, 1.0]
