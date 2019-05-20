@@ -51,8 +51,8 @@ def merge(images, size, boarder=3):
         j = idx // size[1]
         add_h = boarder if j < size[0] else 0
         add_w = boarder if i < size[1] else 0
-		print("image Shape:", image.shape);
-		print("img shape:", img.shape);
+		print("image Shape:", image.shape)
+		print("img shape:", img.shape)
         img[j*(h+add_h):j*(h+add_h)+h, i*(w+add_w):i*(w+add_w)+w, :] = image
 
     for i in range(1,size[1]):
