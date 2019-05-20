@@ -126,6 +126,7 @@ class Nowbar(Model):
             gradient_penalty = tf.reduce_mean((slopes-1.)**2) * config.lamda
 
             #loss
+			# TODO Loss is wrong.
             self.d_loss = tf.reduce_mean(self.D_fake) - tf.reduce_mean(self.D_real)
             self.g_loss = -tf.reduce_mean(self.D_fake)
             self.d_loss += gradient_penalty

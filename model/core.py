@@ -251,9 +251,9 @@ class MuseGAN(object):
 
             _, sb, _ = self.run_sampler(feed_dict=feed_dict,
                                         sample_size=batch_size,
-                                        save_info=is_save,
-                                        save_dir=gen_dir,
-                                        type_=type_)
+                                            save_dir=gen_dir,
+                                   save_info=is_save,
+                                         type_=type_)
             prediction_list.append(sb)
 
         result = np.concatenate(prediction_list, axis=0)

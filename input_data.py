@@ -41,6 +41,7 @@ class InputData:
         random_idx = np.random.choice(len(self.x[key]), sample_size, replace=False)
         return self.x[key][random_idx]*2. - 1.
 
+	#Fixed index and distribution.
     def gen_feed_dict(self, idx=0, data_size=None, key='train', z=None):
         batch_size = self.batch_size if data_size is None else data_size
         feed_dict = self.gen_z_dict(data_size=data_size, z=z)
@@ -68,6 +69,7 @@ class InputDataNowBarHybrid(InputData):
             self.z = z
         else:
             self.z = dict()
+			#To be Changed.
             self.z['inter']=  np.random.normal(0, 0.1, [batch_size, self.model.z_inter_dim]).astype(np.float32)
             self.z['intra'] = np.random.normal(0, 0.1, [batch_size, self.model.z_intra_dim, self.model.track_dim]).astype(np.float32)
         z_dict = {self.model.z_intra: self.z['intra'], self.model.z_inter:self.z['inter']}

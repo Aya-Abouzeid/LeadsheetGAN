@@ -51,6 +51,8 @@ def merge(images, size, boarder=3):
         j = idx // size[1]
         add_h = boarder if j < size[0] else 0
         add_w = boarder if i < size[1] else 0
+		print("image Shape:", image.shape);
+		print("img shape:", img.shape);
         img[j*(h+add_h):j*(h+add_h)+h, i*(w+add_w):i*(w+add_w)+w, :] = image
 
     for i in range(1,size[1]):
@@ -147,109 +149,7 @@ def to_chroma_np(bar, is_normalize=True):
 
     
     ## paul115236
-def interp(grid, inter_i, inter_v, intra_i, intra_v, steps):
 
-    grid_list = []
-    for yidx in range(0, steps):
-        for xidx in range(0, steps):
-            
-            z_inter_i = inter_i * grid[xidx, yidx]
-            z_inter_v = inter_v * grid[xidx, yidx]
-            z_intra_i = intra_i * grid[xidx, yidx]
-            z_intra_v = intra_v * grid[xidx, yidx]
-
-            grid_list.append((z_inter_i, z_inter_v, z_intra_i, z_intra_v))
-    return grid_list
-
-
-def bislerp(a, b, c, d, steps):
-    
-    step_deg = 1 / (steps+1)
-    
-    # ab line
-    na =  np.squeeze(a/np.linalg.norm(a))
-    nb =  np.squeeze(b/np.linalg.norm(b))
-    ab = np.sum(na*nb)
-    ab_omega = np.arccos(ab)
-    ab_so = np.sin(ab_omega)
-    ab_step_list = []
-
-    for idx in range(1, steps+1):
-        t = step_deg*idx
-        tmp = np.sin((1.0-t)*ab_omega) / ab_so * a + np.sin(t*ab_omega)/ab_so * b
-        ab_step_list.append(tmp)
-        
-    # cd line
-    nc =  np.squeeze(c/np.linalg.norm(c))
-    nd =  np.squeeze(d/np.linalg.norm(d))
-    cd = np.sum(nc*nd)
-    cd_omega = np.arccos(cd)
-    cd_so = np.sin(cd_omega)
-    cd_step_list = []
-    
-    for idx in range(1, steps+1):
-        t = step_deg*idx
-        tmp = np.sin((1.0-t)*cd_omega) / cd_so * c + np.sin(t*cd_omega)/cd_so * d
-        cd_step_list.append(tmp)
-    
-    # ac0~ac7(=bd)
-    grid_list = []
-    for n in range(8):
-        nab =  np.squeeze(ab_step_list[n]/np.linalg.norm(ab_step_list[n]))
-        ncd =  np.squeeze(cd_step_list[n]/np.linalg.norm(cd_step_list[n]))
-        ac = np.sum(ab_step_list[n]*cd_step_list[n])
-        ac_omega = np.arccos(ac)
-        ac_so = np.sin(ac_omega)
-        #ac_step_list = []
-        
-        for idx in range(1, steps+1):
-            t = step_deg*idx
-            tmp = np.sin((1.0-t)*ac_omega) / ac_so * ab_step_list[n] + np.sin(t*ac_omega)/ac_so * cd_step_list[n]
-            #ac_step_list.append(tmp)
-            grid_list.append(tmp)
-
-    return grid_list
-        
-def bilerp(a0, a1, b0, b1, steps):
-
-    at = 1 / (steps - 1)
-    bt = 1 / (steps - 1)
-
-    grid_list = []
-    for aidx in range(0, steps):
-        for bidx in range(0, steps):
-            a = at * aidx
-            b = bt * bidx
-
-            ai = (1-a)*a0 + a*a1
-            bi = (1-b)*b0 + b*b1
-
-            grid_list.append((ai, bi))
-    return grid_list
-
-
-def lerp(a, b, steps):
-    vec = b - a
-    step_vec = vec / (steps+1)
-    step_list = []
-    for idx in range(1, steps+1):
-        step_list.append(a + step_vec*idx)
-    return step_list
-
-def slerp(a, b, steps):
-    aa =  np.squeeze(a/np.linalg.norm(a))
-    bb =  np.squeeze(b/np.linalg.norm(b))
-    ttt = np.sum(aa*bb)
-    omega = np.arccos(ttt)
-    so = np.sin(omega)
-    step_deg = 1 / (steps+1)
-    step_list = []
-
-    for idx in range(1, steps+1):
-        t = step_deg*idx
-        tmp = np.sin((1.0-t)*omega) / so * a + np.sin(t*omega)/so * b
-        step_list.append(tmp)
-    return step_list
 
 def get_sample_shape(sample_size):
     if sample_size >= 64  and sample_size %8 == 0:
