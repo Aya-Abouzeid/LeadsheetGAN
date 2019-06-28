@@ -22,8 +22,8 @@ class Metrics(object):
                  drum_filter,
                  scale_mask,
                  track_names,
-				         time_steps_num,
-				         notes_num,
+				 time_steps_num,
+				 notes_num,
                  is_build_graph=False):
 
         # Basic Metrics Setting

@@ -64,8 +64,8 @@ class MuseGAN(object):
                     drum_filter=self.config.drum_filter,
                     scale_mask=self.config.scale_mask,
                     track_names=self.config.track_names,
-					96,
-					84)
+					time_steps_num=96,
+				    notes_num=84)
 
         tf.global_variables_initializer().run()
 
