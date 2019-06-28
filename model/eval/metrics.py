@@ -5,8 +5,6 @@ from __future__ import print_function
 ## 193 settings
 import warnings
 import matplotlib
-import SharedArray as sa
-import tensorflow as tf
 
 ## notebook
 import matplotlib.pyplot as plt
@@ -24,9 +22,13 @@ class Metrics(object):
                  drum_filter,
                  scale_mask,
                  track_names,
+				         time_steps_num,
+				         notes_num,
                  is_build_graph=False):
 
         # Basic Metrics Setting
+        self.notes_num = notes_num
+        self.time_steps_num = time_steps_num
         self.eval_map = eval_map
         self.inter_pair = inter_pair
         self.drum_filter = drum_filter
@@ -140,7 +142,7 @@ class Metrics(object):
     def metric_num_pitch_used(self, bar):
         activation_span = np.sum(bar, axis=0)
         return np.sum(activation_span > 0)
-
+    
     def metric_qualified_note_ratio(self, bar, threshold=2):
         span = bar.shape[1]
         bar_diff = np.concatenate((np.zeros((1, span)), bar, np.zeros((1, span))))
@@ -153,15 +155,16 @@ class Metrics(object):
             st_idx = (bar_search[:,p] > 0).nonzero()[0]
             ed_idx = (bar_search[:,p] < 0).nonzero()[0]
             for idx in range(len(st_idx)):
-                tmp_len = ed_idx[idx] - st_idx[idx]
-                if(tmp_len >=  threshold):
+                if idx < len(ed_idx):
+                  tmp_len = ed_idx[idx] - st_idx[idx]
+                  if(tmp_len >=  threshold):
                     num_short_notes += 1
                 num_notes += 1
 
         return num_short_notes / num_notes
 
     def metric_polyphonic_ratio(self, bar, threshold=2):
-        return sum(np.sum(bar, axis=1) >= threshold) / 96
+        return sum(np.sum(bar, axis=1) >= threshold) / self.time_steps_num
 
     def metric_in_scale(self, chroma):
         all_notes = np.sum(chroma)
@@ -211,8 +214,8 @@ class Metrics(object):
            score_pair_matrix: result of eval pair
         """
 
-        ##batch =  np.reshape(batch,(-1, 96, 84, 6))
-        batch =  np.reshape(batch,(-1, 96, 84, 2))
+        ##batch =  np.reshape(batch,(-1, time_steps_num, notes_num, 6))
+        batch =  np.reshape(batch,(-1, self.time_steps_num, self.notes_num, 2))
         
         num_batch = len(batch)
         score_matrix = np.zeros((self.metrics_num, self.track_num, num_batch)) * np.nan
