@@ -65,7 +65,7 @@ class MuseGAN(object):
                     scale_mask=self.config.scale_mask,
                     track_names=self.config.track_names,
 					time_steps_num=96,
-				    notes_num=84)
+					notes_num=84)
 
         tf.global_variables_initializer().run()
 
